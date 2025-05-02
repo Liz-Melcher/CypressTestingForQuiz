@@ -26,7 +26,23 @@ To intialize Cypress, and scaffold the folder the package.json had to be updated
   "test": "cypress run"
 }
 ```
+ 
+Make sure there is a config file within Cypress:  
+[tsconfig.json](/cypress/tsconfig.json)
 
+And reads: 
+```json
+{
+    "extends": "../tsconfig.json",
+      "compilerOptions": {
+        "target": "es5",
+        "lib": ["es5", "dom"],
+        "types": ["cypress", "node"],
+        "jsx": "react-jsx"
+      },
+      "include": ["**/*.ts", "**/*.tsx"]
+  }
+  ``` 
 
 
 
