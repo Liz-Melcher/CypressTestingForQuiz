@@ -1,3 +1,5 @@
+// no imports in end 2 end testing 
+
 describe('Quiz Component', ()=> {
     beforeEach( ()=> {
         cy.visit('/')
