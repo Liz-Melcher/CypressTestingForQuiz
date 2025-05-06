@@ -1,36 +1,35 @@
-// no imports in end 2 end testing 
-
-describe('Quiz Component', ()=> {
-    beforeEach( ()=> {
-        cy.visit('/')
+describe('Quiz Component', () => {
+    beforeEach(() => {
+      cy.visit('/');
     });
-
-    it('should start the quiz and and display the first question', () => {
-        
-        cy.get('button').contains('Start Quiz').click()
-        cy.get('.card').should('be.visible');
-        cy.get('h2').should('not.be.empty');
+  
+    it('should start the quiz and display the first question', () => {
+      cy.get('[data-cy="start-quiz-button"]').click();
+      cy.get('.card').should('be.visible');
+      cy.get('h2').should('not.be.empty');
     });
-    
-    it('should answer questions and complete the quiz', ()=> {
-        
-        cy.get('button').contains('Start Quiz').click()
-        for (let i = 0; i < 10; i++) {
-            cy.get('button').contains('1').click();
-            
-        }
-        cy.get('alert-success').should('be.visible').and('contain', 'Your Score')
+  
+    it('should answer questions and complete the quiz', () => {
+      cy.get('[data-cy="start-quiz-button"]').click();
+  
+      // Loop to answer 10 questions by clicking the first answer button
+      for (let i = 0; i < 10; i++) {
+        cy.get('[data-cy^="answer-button-"]').first().click();
+      }
+  
+      cy.get('.alert-success').should('be.visible').and('contain', 'Your score');
     });
-    
-    it('should start the quiz again after completion', ()=> {
-        
-        cy.get('button').contains('Start Quiz').click();
-        cy.get('button').contains('1').click();
-        cy.get('button').contains('Take New Quiz').click();
-        cy.get('.card').should('be.visible');
-        cy.get('h2').should('not.be.empty');
-     
-    })
-
-
-})
+  
+    it('should start the quiz again after completion', () => {
+      cy.get('[data-cy="start-quiz-button"]').click();
+  
+      for (let i = 0; i < 10; i++) {
+        cy.get('[data-cy^="answer-button-"]').first().click();
+      }
+  
+      cy.get('[data-cy="restart-quiz-button"]').click();
+      cy.get('.card').should('be.visible');
+      cy.get('h2').should('not.be.empty');
+    });
+  });
+  

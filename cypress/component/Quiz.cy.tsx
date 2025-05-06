@@ -11,46 +11,59 @@
 // THEN I can start a new quiz
 
 //import React from 'react';
+
+
+
 import { mount } from 'cypress/react';
-import Quiz from '../../client/src/components/Quiz'
+import Quiz from '../../client/src/components/Quiz';
 
+describe('Quiz Component', () => {
+  beforeEach(() => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: 'api/questions/random',
+      },
+      {
+        fixture: 'questions.json',
+        statusCode: 200,
+      }
+    ).as('getRandomQuestion');
+  });
 
-describe('Quiz Component', ()=> {
-    beforeEach(()=> {
-        cy.intercept({
-            method: 'GET',
-            url: 'api/questions/random'
-        },
-        {
-            fixture: 'questions.json',
-            statusCode: 200 
-        }
-        ).as('getRandomQuestion')
-    } )
-    it('should start the quiz and and display the first question', () => {
-        mount(<Quiz />);
-        cy.get('button').contains('Start Quiz').click()
-        cy.get('.card').should('be.visible');
-        cy.get('h2').should('not.be.empty');
+  it('should start the quiz and display the first question', () => {
+    mount(<Quiz />);
+    cy.get('[data-cy="start-quiz-button"]').click();
+    cy.get('.card').should('be.visible');
+    cy.get('h2').should('not.be.empty');
+  });
+
+  it('should answer questions and complete the quiz', () => {
+    mount(<Quiz />);
+    cy.get('[data-cy="start-quiz-button"]').click();
+
+    // Loop through answer buttons for each question
+    cy.fixture('questions.json').then((questions) => {
+      questions.forEach(() => {
+        cy.get('[data-cy^="answer-button-"]').first().click();
+      });
     });
-    
-    it('should answer questions and complete the quiz', ()=> {
-        mount(<Quiz />);
-        cy.get('button').contains('Start Quiz').click()
-        cy.get('button').contains('1').click();
-        cy.get('alert-success').should('be.visible').and('contain', 'Your Score')
+
+    cy.get('.alert-success').should('be.visible').and('contain', 'Your score');
+  });
+
+  it('should start the quiz again after completion', () => {
+    mount(<Quiz />);
+    cy.get('[data-cy="start-quiz-button"]').click();
+
+    cy.fixture('questions.json').then((questions) => {
+      questions.forEach(() => {
+        cy.get('[data-cy^="answer-button-"]').first().click();
+      });
     });
-    
-    it('should start the quiz again after completion', ()=> {
-        mount(<Quiz />);
-        cy.get('button').contains('Start Quiz').click();
-        cy.get('button').contains('1').click();
-        cy.get('button').contains('Take New Quiz').click();
-        cy.get('.card').should('be.visible');
-        cy.get('h2').should('not.be.empty');
-     
-    })
-})
 
-
-
+    cy.get('[data-cy="restart-quiz-button"]').click();
+    cy.get('.card').should('be.visible');
+    cy.get('h2').should('not.be.empty');
+  });
+});
