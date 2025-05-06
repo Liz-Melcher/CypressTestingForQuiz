@@ -1,10 +1,12 @@
 # Cypress Testing Practice for a Working Quiz Application 
 
--GitHub Repository 
+-[GitHub Repository](https://github.com/Liz-Melcher/CypressTestingForQuiz)
+
 -Video Walkthrough 
--Render Website
+
 
 ## Description
+This project enhances a full-stack Tech Quiz application by adding Cypress component and end-to-end testing. Built with the MERN stack, the app lets users take a 10-question quiz and view their final score. The goal of this assignment is to strengthen reliability through comprehensive automated testing.
 
 ## Installation
 This project came with working starter code for the quiz application itself.
@@ -18,7 +20,7 @@ NPM run start:dev
 
 Cypress did come installed with the original dependencies but the testing library did not.
 `npm install --save-dev @testing-library/cypress` 
-To intialize Cypress, and scaffold the folder the package.json had to be updated with this information:
+To initialize Cypress, and scaffold the folder the package.json had to be updated with this information:
 ```sh
 "scripts": {
   ...
@@ -43,13 +45,28 @@ And reads:
       "include": ["**/*.ts", "**/*.tsx"]
   }
   ``` 
+The cypress.config.ts file should read:
+```json
+import { defineConfig } from "cypress";
 
+export default defineConfig({
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+    },
+  },
 
-
-## Testing
+  e2e: {
+    baseUrl: 'http://127.0.0.1:3001',
+  },
+});
+```
 
 ## License 
+MIT License.
 
+Original project instructions are here: 
 # 19 Testing: Tech Quiz Test Suite, original instructions: 
 
 ## Your Task
