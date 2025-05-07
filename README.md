@@ -27,7 +27,8 @@ To initialize Cypress, and scaffold the folder the package.json had to be update
 "scripts": {
   ...
   "cypress:open": "cypress open",
-  "test": "cypress run"
+  "test": "cypress run",
+  "test:comp": "cypress run --component"
 }
 ```
  
