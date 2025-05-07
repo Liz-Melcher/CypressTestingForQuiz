@@ -2,7 +2,9 @@
 
 -[GitHub Repository](https://github.com/Liz-Melcher/CypressTestingForQuiz)
 
--Video Walkthrough 
+-[Video Walkthrough](https://youtu.be/YxtCB1wz3Bs)
+
+-Deployed page: NA; deliverables include only the repo and the video for this project 
 
 
 ## Description
